@@ -260,11 +260,32 @@
                 }
             },
             "form": {
+                "attributes": {
+                    "action": "http://httpbin.org/post",
+                    "method": "post"
+                },
                 "buttons": {
                     "submit": {
                         "click": function() {
                             var value = this.getValue();
                             console.log(JSON.stringify(value, null, "  "));
+                            $("#form form").submit();
+                            var data = $('#form').alpaca("get");
+                            //data.push({name: 'tienn2t', value: 'love'});
+                            $.ajax({
+                                type: "POST",
+                                url: "https://pafi.univ-lemans.fr/platform/index.php/PafiTransfer/Transfer/UploadJson",
+                                data: data,
+                                dataType: "json",
+                                success: function(data) {
+                                    //var obj = jQuery.parseJSON(data); if the dataType is not     specified as json uncomment this
+                                    // do what ever you want with the server response
+                                    console.log(data);
+                                },
+                                error: function() {
+                                    alert('error handing here');
+                                }
+                            });
                         }
                     }
                 }
