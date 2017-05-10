@@ -1,0 +1,20 @@
+html {
+    overflow: hidden;
+    padding-top: 60px;
+}
+
+
+canvas {
+    height: 256px;
+    width: 100%;
+    background: #202020;
+}
+
+
+#record.recording{
+    border-color: red;
+    background-color: red;
+}
+
+#save { opacity: 0.25;}
+#save[download] { opacity: 1;}
