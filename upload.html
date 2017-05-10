@@ -27,6 +27,14 @@
 <body>
 <div id="form"></div>
 <script>
+    function FileConvertSize(aSize){
+        aSize = Math.abs(parseInt(aSize, 10));
+        var def = [[1, 'octets'], [1024, 'ko'], [1024*1024, 'Mo'], [1024*1024*1024, 'Go'], [1024*1024*1024*1024, 'To']];
+        for(var i=0; i<def.length; i++){
+            if(aSize<def[i][0]) return (aSize/def[i-1][0]).toFixed(2)+' '+def[i-1][1];
+        }
+    }
+
 	$(document).ready(function() {
     $("#form").alpaca({
     		//"dataSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-data.json",
@@ -81,12 +89,15 @@
                             "valeur":"valeur2"
                         }
                     ]
-}
-,
+},
         //"schemaSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-schema.json",
         "schemaSource":{
             "type": "object",
                     "properties": {
+                        "Wav": {
+                            "type": "string",
+                            "format": "uri"
+                        },
                         "Général.Projet.Nom": {
                             "title":"Nom",
                             "type": "string"
@@ -204,37 +215,69 @@
                         }
                     },
                     "additionalProperties": false
-        }
-        ,
+        },
         //"optionsSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-options.json",
         "options": {
-                    "fields": {
-                        "Instrument.Paramètres": {
-                            "type":"table"
-                        },
-                        "Instrument.Commentaires": {
-                            "type": "textarea"
-                        },
-                        "Instrument.Etat.Paramètres": {
-                            "type":"table"
-                        },
-                        "Essai.Paramètres de mesure.Méthode.Type de mesure": {
-                            "hideNone": 1
-                        },
-                        "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
-                            "type":"textarea"
-                        },
-                        "Essai.Paramètres": {
-                            "type":"table"
+            "fields": {
+                "Wav": {
+                    "disallowEmptySpaces":1,
+                    "type": "file",
+                    "fieldClass":"tugudu",
+                    "fileTypes": "(\.|\/)(wav)$",
+                    "maxNumberOfFiles": 1,
+                    "label": "Fichier WAV",
+                    "selectionHandler": function(files, data) {
+                        this.data = data;
+                        $(".tugudu").append('<div id="imageInfo" style="display:block;padding:10px;"><table><tr><td nowrap="nowrap" class="imagePreview" style="width: 220px"> </td><td width="100%" class="imageProperties"> </td></tr></table></div>');
+                        //var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='" + data[0] + "'>");
+                        var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='http://openexhibits.org/wp-content/uploads/icon/large/wav-player-icon-100x100.png'>");
+                        var p = $(".imageProperties").html("").append("<p></p>");
+                        $(p).append("Name: " + files[0].name + "<br/>");
+                        $(p).append("Size: " + FileConvertSize(files[0].size) + "<br/>");
+                        $(p).append("Type: " + files[0].type + "<br/>");
+                        $("#imageInfo").css({
+                            "display": "block"
+                        });
+                    }
+                },
+                "Instrument.Paramètres": {
+                    "type":"table"
+                },
+                "Instrument.Commentaires": {
+                    "type": "textarea"
+                },
+                "Instrument.Etat.Paramètres": {
+                    "type":"table"
+                },
+                "Essai.Paramètres de mesure.Méthode.Type de mesure": {
+                    "hideNone": 1
+                },
+                "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
+                    "type":"textarea"
+                },
+                "Essai.Paramètres": {
+                    "type":"table"
+                }
+            },
+            "form": {
+                "buttons": {
+                    "submit": {
+                        "click": function() {
+                            var value = this.getValue();
+                            console.log(JSON.stringify(value, null, "  "));
                         }
                     }
+                }
+            }
         },
         "view": {
             "parent": "bootstrap-edit",
             "wizard": {
                 "title": "PAFI",
                 "description": "Saisie a minima des métadonnées",
+                "hideSubmitButton":1,
                 "bindings": {
+                    "Wav": 1,
                     "Général.Projet.Nom": 1,
                     "Général.Projet.Session": 1,
 
