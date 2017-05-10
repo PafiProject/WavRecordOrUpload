@@ -7,21 +7,21 @@
 	</title>
 
         <!-- jQuery -->
-        <script type="text/javascript" src="lib/jquery.min.js"></script>
+        <script type="text/javascript" src="/lib/jquery.min.js"></script>
 
         <!-- Bootstrap -->
-        <link href="lib/bootstrap.css" rel="stylesheet" media="screen">
-        <link type="text/css" href="lib/bootstrap-theme.css" rel="stylesheet" />
-        <script type="text/javascript" src="lib/bootstrap.js"></script>
+        <link href="/lib/bootstrap.css" rel="stylesheet" media="screen">
+        <link type="text/css" href="/lib/bootstrap-theme.css" rel="stylesheet" />
+        <script type="text/javascript" src="/lib/bootstrap.js"></script>
 
         <!-- Handlebars -->
-        <script type="text/javascript" src="lib/handlebars.js"></script>
+        <script type="text/javascript" src="/lib/handlebars.js"></script>
 
         <!-- Alpaca -->
-        <script type="text/javascript" src="lib/alpaca.js"></script>
-        <link type="text/css" href="lib/alpaca.css" rel="stylesheet" />
+        <script type="text/javascript" src="/lib/alpaca.js"></script>
+        <link type="text/css" href="/lib/alpaca.css" rel="stylesheet" />
 
-    <link type="text/css" href="lib/form.css" rel="stylesheet" />
+    <link type="text/css" href="/lib/form.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -268,9 +268,9 @@
                     "submit": {
                         "click": function() {
                             var value = this.getValue();
-                            console.log(JSON.stringify(value, null, "  "));
-                            $("#form form").submit();
-                            var data = $('#form').alpaca("get");
+                            //console.log(JSON.stringify(value, null, "  "));
+                            //$("#form form").submit();
+                            var data = JSON.stringify(value, null, "  ");
                             //data.push({name: 'tienn2t', value: 'love'});
                             $.ajax({
                                 type: "POST",
