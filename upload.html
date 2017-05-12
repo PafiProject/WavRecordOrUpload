@@ -32,10 +32,8 @@
         <button class="btn btn-default btn-primary" onclick="$('#form-container').toggle();">Afficher le formulaire</button>
         <button class="btn btn-default btn-primary" onclick="$('#record-container').toggle();">Afficher l'enregistreur</button>
     </div>
-    <div>
-        <p>Ca c'est pas beau mais pê ça marche :</p>
-        <textarea id="blob" name="blob" ></textarea>
-
+    <div style="display:none">
+        <textarea id="blob" name="blob"></textarea>
     </div>
     <div  id="record-container">
 		<div class="row">
@@ -392,13 +390,13 @@
             });
         });
 	</script>
-<script>
-    $(window).on("ready", function() {
-       $("#transfer").on("click", function() {
-           $('#record-container').hide();
-           $('#form-container').slideDown();
-       });
-    });
-</script>
+	<script>
+	    $(document).on("ready", function() {
+			$("#transfer").on( "click", function() {
+				$('#record-container').hide();
+				$('#form-container').slideDown();
+			});
+		});
+	</script>
 </body>
 </html>
