@@ -29,8 +29,7 @@
 
 <div class="container">
     <div class="row">
-        <button class="btn btn-default btn-primary" onclick="$('#form-container').toggle();">Afficher le formulaire</button>
-        <button class="btn btn-default btn-primary" onclick="$('#record-container').toggle();">Afficher l'enregistreur</button>
+        <button class="btn btn-default btn-primary" onclick="toggleRecordForm();">Enregistrement/transfert</button>
     </div>
     <div style="display:none">
         <textarea id="blob" name="blob"></textarea>
@@ -274,7 +273,12 @@
                             "maxNumberOfFiles": 1,
                             "label": "Fichier WAV",
                             "selectionHandler": function (files, data) {
-                                this.data = data;
+                                this.data = [];
+                                this.data[0] = {
+                                    "signal": data,
+                                    "name":files[0].name
+                                }
+                                console.log(files);
                                 $(".tugudu").append('<div id="imageInfo" style="display:block;padding:10px;"><table><tr><td nowrap="nowrap" class="imagePreview" style="width: 220px"> </td><td width="100%" class="imageProperties"> </td></tr></table></div>');
                                 //var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='" + data[0] + "'>");
                                 var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='http://openexhibits.org/wp-content/uploads/icon/large/wav-player-icon-100x100.png'>");
@@ -318,7 +322,7 @@
                                     console.log(value);
                                     if($.blob) {
                                         value.Wav = [];
-                                        value.Wav[0] = $("#blob").html();
+                                        value.Wav[0] = {"signal":$("#blob").html(), "name":"pafibox-signal"};
                                     }
                                     //console.log(JSON.stringify(value, null, "  "));
                                     //$("#form form").submit();
@@ -391,12 +395,30 @@
         });
 	</script>
 	<script>
+        function toggleRecordForm() {
+            $('#form-container').toggle();
+            $('#record-container').toggle();
+            console.log($.blob);
+            console.log("ici");
+            if($.audioIsComing) {
+                console.log("on a un audio !");
+                $(".alpaca-field-file").hide();
+            } else {
+                $(".alpaca-field-file").show();
+            }
+
+
+        }
 	    $(document).on("ready", function() {
+            $.audioIsComing = 0;
 			$("#transfer").on( "click", function() {
 				$('#record-container').hide();
 				$('#form-container').slideDown();
 			});
+
 		});
+
+
 	</script>
 </body>
 </html>
