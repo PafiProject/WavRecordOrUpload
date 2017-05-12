@@ -1,8 +1,6 @@
 html {
     overflow: hidden;
-    padding-top: 60px;
 }
-
 
 canvas {
     height: 256px;
