@@ -6,8 +6,6 @@
 	<title>Audio Recorder</title>
 	<link rel="stylesheet" href="lib/recorder.css">
 
-<<<<<<< HEAD
-
 	<!-- jQuery -->
 	<script type="text/javascript" src="lib/jquery.min.js"></script>
 
@@ -24,28 +22,22 @@
 	<link type="text/css" href="lib/alpaca.css" rel="stylesheet" />
 
 	<link type="text/css" href="lib/form.css" rel="stylesheet" />
-=======
-        <!-- jQuery -->
-        <script type="text/javascript" src="/lib/jquery.min.js"></script>
 
-        <!-- Bootstrap -->
-        <link href="/lib/bootstrap.css" rel="stylesheet" media="screen">
-        <link type="text/css" href="/lib/bootstrap-theme.css" rel="stylesheet" />
-        <script type="text/javascript" src="/lib/bootstrap.js"></script>
-
-        <!-- Handlebars -->
-        <script type="text/javascript" src="/lib/handlebars.js"></script>
-
-        <!-- Alpaca -->
-        <script type="text/javascript" src="/lib/alpaca.js"></script>
-        <link type="text/css" href="/lib/alpaca.css" rel="stylesheet" />
-
-    <link type="text/css" href="/lib/form.css" rel="stylesheet" />
->>>>>>> 9daff3a5612131378994205cc7e45e66bd3c39a0
-
+    <script type="text/javascript" src="https://rawgit.com/mathiasbynens/base64/master/src/base64.js"></script>
 </head>
 <body>
-	<div class="container">
+
+<div class="container">
+    <div class="row">
+        <button class="btn btn-default btn-primary" onclick="$('#form-container').toggle();">Afficher le formulaire</button>
+        <button class="btn btn-default btn-primary" onclick="$('#record-container').toggle();">Afficher l'enregistreur</button>
+    </div>
+    <div>
+        <p>Ca c'est pas beau mais pê ça marche :</p>
+        <textarea id="blob" name="blob" ></textarea>
+
+    </div>
+    <div  id="record-container">
 		<div class="row">
 			<div class="col-lg-12">
 				<h2>Enregistrement</h2>
@@ -69,17 +61,20 @@
 					<li class="list-item">
 						<a class="btn btn-default btn-primary" id="save">Télécharger</a>
 					</li>
-					<li class="list-item">
-						<a class="btn btn-default btn-primary" id="edit">Editer</a>
-					</li>
+                    <li class="list-item">
+                        <a class="btn btn-default btn-primary" id="transfer">Transférer</a>
+                    </li>
 				</ul>
 			</div>
-			<input id="blob" name="blob" >
 		</div>
-		<div id="form">
-
-		</div>
-	</div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="form-container" style="display:none;">
+            <div id="form">
+            </div>
+        </div>
+    </div>
+</div>
 
 	<script src="lib/audiodisplay.js"></script>
 	<script src="lib/recorder.js"></script>
@@ -94,345 +89,114 @@
 	    }
 
 		$(document).ready(function() {
-	    $("#form").alpaca({
-	    		//"dataSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-data.json",
-	      	"dataSource" :{
-	                "Général.Projet.Nom": "LEONARDO 2017",
-	                "Général.Projet.Session": "Bois tropicaux",
+            $("#form").alpaca({
+                //"dataSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-data.json",
+                "dataSource": {
+                    "Général.Projet.Nom": "LEONARDO 2017",
+                    "Général.Projet.Session": "Bois tropicaux",
 
-	                "Instrument.Catégorie": "0: Cordes pincées",
-	                "Instrument.Famille": "0: Guitares",
-	                "Instrument.Nom": "0: Classique",
-	                "Instrument.Modèle": "Bouchet",
-	                "Instrument.Année de fabrication": "2017",
-	                "Instrument.Numéro de série": "CT1",
-	                "Instrument.Commentaires": "",
-	                "Instrument.Paramètres":
-	                    [
-	                        {
-	                            "nom":"nom1",
-	                            "valeur":"valeur1"
-	                        },
-	                        {
-	                            "nom":"nom2",
-	                            "valeur":"valeur2"
-	                        }
-	                    ],
-	                "Objet physique.Fabricant": "Hans Van Velzen",
-
-	                "Instrument.Etat.Nom":"",
-	                "Instrument.Etat.Paramètres":
-	                    [
-	                        {
-	                            "nom":"nom1",
-	                            "valeur":"valeur1"
-	                        },
-	                        {
-	                            "nom":"nom2",
-	                            "valeur":"valeur2"
-	                        }
-	                    ],
-	                "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": "",
-
-<<<<<<< HEAD
-	                "Essai.Paramètres de mesure.Méthode.Type de mesure": "0: Réponses",
-	                "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": "Excitation en P0, situé à 12cm du chevalet, corde E aigue\nAccelero au chevalet E grave\nMicro dans l'axe à 30 cm",
-	                "Essai.Paramètres":
-	                    [
-	                        {
-	                            "nom":"nom1",
-	                            "valeur":"valeur1"
-	                        },
-	                        {
-	                            "nom":"nom2",
-	                            "valeur":"valeur2"
-	                        }
-	                    ]
-	},
-	        //"schemaSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-schema.json",
-	        "schemaSource":{
-	            "type": "object",
-	                    "properties": {
-	                        "Wav": {
-	                            "type": "string",
-	                            "format": "uri"
-	                        },
-	                        "Général.Projet.Nom": {
-	                            "title":"Nom",
-	                            "type": "string"
-	                        },
-	                        "Général.Projet.Session": {
-	                            "title":"Session",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Catégorie": {
-	                            "title":"Catégorie",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Famille": {
-	                            "title":"Famille",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Nom": {
-	                            "title":"Nom",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Modèle": {
-	                            "title":"Modèle",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Année de fabrication": {
-	                            "title":"Année de fabrication",
-	                            "type": "string",
-	                            "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
-	                        },
-	                        "Instrument.Numéro de série": {
-	                            "title":"Numéro de série",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Commentaires": {
-	                            "title":"Commentaires",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Paramètres": {
-	                            "title":"Paramètres",
-	                            "type": "array",
-	                            "items": {
-	                                "type": "object",
-	                                "properties": {
-	                                    "nom": {
-	                                        "title":"nom",
-	                                        "type": "string",
-	                                        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
-	                                    },
-	                                    "valeur": {
-	                                        "title":"valeur",
-	                                        "type": "string"
-	                                    }
-	                                },
-	                                "additionalProperties": false
-	                            }
-	                        },
-	                        "Objet physique.Fabricant": {
-	                            "title":"Fabricant",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Etat.Nom": {
-	                            "title":"Nom",
-	                            "type": "string"
-	                        },
-	                        "Instrument.Etat.Paramètres": {
-	                            "title":"Paramètres",
-	                            "type": "array",
-	                            "items": {
-	                                "type": "object",
-	                                "properties": {
-	                                    "nom": {
-	                                        "title":"nom",
-	                                        "type": "string",
-	                                        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
-	                                    },
-	                                    "valeur": {
-	                                        "title":"valeur",
-	                                        "type": "string"
-	                                    }
-	                                },
-	                                "additionalProperties": false
-	                            }
-	                        },
-	                        "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": {
-	                            "title":"Commentaires sur l&#39;état de l&#39;instrument",
-	                            "type": "string"
-	                        },
-	                        "Essai.Paramètres de mesure.Méthode.Type de mesure": {
-	                            "title":"Type de mesure",
-	                            "type": "string",
-	                            "enum":['0: Réponses','1: Mobilité au fil','2: Mobilité au marteau (Yh)']
-	                        },
-	                        "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
-	                            "title":"Commentaires sur la mesure réalisée",
-	                            "type": "string"
-	                        },
-	                        "Essai.Paramètres": {
-	                            "title":"Paramètres",
-	                            "type": "array",
-	                            "items": {
-	                                "type": "object",
-	                                "properties": {
-	                                    "nom": {
-	                                        "title":"nom",
-	                                        "type": "string",
-	                                        "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
-	                                    },
-	                                    "valeur": {
-	                                        "title":"valeur",
-	                                        "type": "string"
-	                                    }
-	                                },
-	                                "additionalProperties": false
-	                            }
-	                        }
-	                    },
-	                    "additionalProperties": false
-	        },
-	        //"optionsSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-options.json",
-	        "options": {
-	            "fields": {
-	                "Wav": {
-	                    "disallowEmptySpaces":1,
-	                    "type": "file",
-	                    "fieldClass":"tugudu",
-	                    "fileTypes": "(\.|\/)(wav)$",
-	                    "maxNumberOfFiles": 1,
-	                    "label": "Fichier WAV",
-	                    "selectionHandler": function(files, data) {
-	                        this.data = data;
-	                        $(".tugudu").append('<div id="imageInfo" style="display:block;padding:10px;"><table><tr><td nowrap="nowrap" class="imagePreview" style="width: 220px"> </td><td width="100%" class="imageProperties"> </td></tr></table></div>');
-	                        //var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='" + data[0] + "'>");
-	                        var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='http://openexhibits.org/wp-content/uploads/icon/large/wav-player-icon-100x100.png'>");
-	                        var p = $(".imageProperties").html("").append("<p></p>");
-	                        $(p).append("Name: " + files[0].name + "<br/>");
-	                        $(p).append("Size: " + FileConvertSize(files[0].size) + "<br/>");
-	                        $(p).append("Type: " + files[0].type + "<br/>");
-	                        $("#imageInfo").css({
-	                            "display": "block"
-	                        });
-	                    }
-	                },
-	                "Instrument.Paramètres": {
-	                    "type":"table"
-	                },
-	                "Instrument.Commentaires": {
-	                    "type": "textarea"
-	                },
-	                "Instrument.Etat.Paramètres": {
-	                    "type":"table"
-	                },
-	                "Essai.Paramètres de mesure.Méthode.Type de mesure": {
-	                    "hideNone": 1
-	                },
-	                "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
-	                    "type":"textarea"
-	                },
-	                "Essai.Paramètres": {
-	                    "type":"table"
-	                }
-	            },
-	            "form": {
-	                "attributes": {
-	                    "action": "http://httpbin.org/post",
-	                    "method": "post"
-	                },
-	                "buttons": {
-	                    "submit": {
-	                        "click": function() {
-	                            var value = this.getValue();
-	                            console.log(JSON.stringify(value, null, "  "));
-	                            $("#form form").submit();
-	                            var data = $('#form').alpaca("get");
-	                            //data.push({name: 'tienn2t', value: 'love'});
-	                            $.ajax({
-	                                type: "POST",
-	                                url: "https://pafi.univ-lemans.fr/platform/index.php/PafiTransfer/Transfer/UploadJson",
-	                                data: data,
-	                                dataType: "json",
-	                                success: function(data) {
-	                                    //var obj = jQuery.parseJSON(data); if the dataType is not     specified as json uncomment this
-	                                    // do what ever you want with the server response
-	                                    console.log(data);
-	                                },
-	                                error: function() {
-	                                    alert('error handing here');
-	                                }
-	                            });
-	                        }
-	                    }
-	                }
-	            }
-	        },
-	        "view": {
-	            "parent": "bootstrap-edit",
-	            "wizard": {
-	                "title": "PAFI",
-	                "description": "Saisie a minima des métadonnées",
-	                "hideSubmitButton":1,
-	                "bindings": {
-	                    "Wav": 1,
-	                    "Général.Projet.Nom": 1,
-	                    "Général.Projet.Session": 1,
-=======
-                "Essai.Paramètres de mesure.Méthode.Type de mesure": "0: Réponses",
-                "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": "Excitation en P0, situé à 12cm du chevalet, corde E aigue\nAccelero au chevalet E grave\nMicro dans l'axe à 30 cm",
-                "Essai.Paramètres":
-                    [
+                    "Instrument.Catégorie": "0: Cordes pincées",
+                    "Instrument.Famille": "0: Guitares",
+                    "Instrument.Nom": "0: Classique",
+                    "Instrument.Modèle": "Bouchet",
+                    "Instrument.Année de fabrication": "2017",
+                    "Instrument.Numéro de série": "CT1",
+                    "Instrument.Commentaires": "",
+                    "Instrument.Paramètres": [
                         {
-                            "nom":"nom1",
-                            "valeur":"valeur1"
+                            "nom": "nom1",
+                            "valeur": "valeur1"
                         },
                         {
-                            "nom":"nom2",
-                            "valeur":"valeur2"
+                            "nom": "nom2",
+                            "valeur": "valeur2"
+                        }
+                    ],
+                    "Objet physique.Fabricant": "Hans Van Velzen",
+
+                    "Instrument.Etat.Nom": "",
+                    "Instrument.Etat.Paramètres": [
+                        {
+                            "nom": "nom1",
+                            "valeur": "valeur1"
+                        },
+                        {
+                            "nom": "nom2",
+                            "valeur": "valeur2"
+                        }
+                    ],
+                    "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": "",
+                    "Essai.Paramètres de mesure.Méthode.Type de mesure": "0: Réponses",
+                    "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": "Excitation en P0, situé à 12cm du chevalet, corde E aigue\nAccelero au chevalet E grave\nMicro dans l'axe à 30 cm",
+                    "Essai.Paramètres": [
+                        {
+                            "nom": "nom1",
+                            "valeur": "valeur1"
+                        },
+                        {
+                            "nom": "nom2",
+                            "valeur": "valeur2"
                         }
                     ]
-},
-        //"schemaSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-schema.json",
-        "schemaSource":{
-            "type": "object",
+                },
+                //"schemaSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-schema.json",
+                "schemaSource": {
+                    "type": "object",
                     "properties": {
                         "Wav": {
                             "type": "string",
                             "format": "uri"
                         },
                         "Général.Projet.Nom": {
-                            "title":"Nom",
+                            "title": "Nom",
                             "type": "string"
                         },
                         "Général.Projet.Session": {
-                            "title":"Session",
+                            "title": "Session",
                             "type": "string"
                         },
                         "Instrument.Catégorie": {
-                            "title":"Catégorie",
+                            "title": "Catégorie",
                             "type": "string"
                         },
                         "Instrument.Famille": {
-                            "title":"Famille",
+                            "title": "Famille",
                             "type": "string"
                         },
                         "Instrument.Nom": {
-                            "title":"Nom",
+                            "title": "Nom",
                             "type": "string"
                         },
                         "Instrument.Modèle": {
-                            "title":"Modèle",
+                            "title": "Modèle",
                             "type": "string"
                         },
                         "Instrument.Année de fabrication": {
-                            "title":"Année de fabrication",
+                            "title": "Année de fabrication",
                             "type": "string",
                             "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
                         },
                         "Instrument.Numéro de série": {
-                            "title":"Numéro de série",
+                            "title": "Numéro de série",
                             "type": "string"
                         },
                         "Instrument.Commentaires": {
-                            "title":"Commentaires",
+                            "title": "Commentaires",
                             "type": "string"
                         },
                         "Instrument.Paramètres": {
-                            "title":"Paramètres",
+                            "title": "Paramètres",
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "nom": {
-                                        "title":"nom",
+                                        "title": "nom",
                                         "type": "string",
                                         "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
                                     },
                                     "valeur": {
-                                        "title":"valeur",
+                                        "title": "valeur",
                                         "type": "string"
                                     }
                                 },
@@ -440,26 +204,26 @@
                             }
                         },
                         "Objet physique.Fabricant": {
-                            "title":"Fabricant",
+                            "title": "Fabricant",
                             "type": "string"
                         },
                         "Instrument.Etat.Nom": {
-                            "title":"Nom",
+                            "title": "Nom",
                             "type": "string"
                         },
                         "Instrument.Etat.Paramètres": {
-                            "title":"Paramètres",
+                            "title": "Paramètres",
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "nom": {
-                                        "title":"nom",
+                                        "title": "nom",
                                         "type": "string",
                                         "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
                                     },
                                     "valeur": {
-                                        "title":"valeur",
+                                        "title": "valeur",
                                         "type": "string"
                                     }
                                 },
@@ -467,31 +231,31 @@
                             }
                         },
                         "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": {
-                            "title":"Commentaires sur l&#39;état de l&#39;instrument",
+                            "title": "Commentaires sur l&#39;état de l&#39;instrument",
                             "type": "string"
                         },
                         "Essai.Paramètres de mesure.Méthode.Type de mesure": {
-                            "title":"Type de mesure",
+                            "title": "Type de mesure",
                             "type": "string",
-                            "enum":['0: Réponses','1: Mobilité au fil','2: Mobilité au marteau (Yh)']
+                            "enum": ['0: Réponses', '1: Mobilité au fil', '2: Mobilité au marteau (Yh)']
                         },
                         "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
-                            "title":"Commentaires sur la mesure réalisée",
+                            "title": "Commentaires sur la mesure réalisée",
                             "type": "string"
                         },
                         "Essai.Paramètres": {
-                            "title":"Paramètres",
+                            "title": "Paramètres",
                             "type": "array",
                             "items": {
                                 "type": "object",
                                 "properties": {
                                     "nom": {
-                                        "title":"nom",
+                                        "title": "nom",
                                         "type": "string",
                                         "pattern": "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$"
                                     },
                                     "valeur": {
-                                        "title":"valeur",
+                                        "title": "valeur",
                                         "type": "string"
                                     }
                                 },
@@ -500,130 +264,141 @@
                         }
                     },
                     "additionalProperties": false
-        },
-        //"optionsSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-options.json",
-        "options": {
-            "fields": {
-                "Wav": {
-                    "disallowEmptySpaces":1,
-                    "type": "file",
-                    "fieldClass":"tugudu",
-                    "fileTypes": "(\.|\/)(wav)$",
-                    "maxNumberOfFiles": 1,
-                    "label": "Fichier WAV",
-                    "selectionHandler": function(files, data) {
-                        this.data = data;
-                        $(".tugudu").append('<div id="imageInfo" style="display:block;padding:10px;"><table><tr><td nowrap="nowrap" class="imagePreview" style="width: 220px"> </td><td width="100%" class="imageProperties"> </td></tr></table></div>');
-                        //var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='" + data[0] + "'>");
-                        var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='http://openexhibits.org/wp-content/uploads/icon/large/wav-player-icon-100x100.png'>");
-                        var p = $(".imageProperties").html("").append("<p></p>");
-                        $(p).append("Name: " + files[0].name + "<br/>");
-                        $(p).append("Size: " + FileConvertSize(files[0].size) + "<br/>");
-                        $(p).append("Type: " + files[0].type + "<br/>");
-                        $("#imageInfo").css({
-                            "display": "block"
-                        });
-                    }
                 },
-                "Instrument.Paramètres": {
-                    "type":"table"
-                },
-                "Instrument.Commentaires": {
-                    "type": "textarea"
-                },
-                "Instrument.Etat.Paramètres": {
-                    "type":"table"
-                },
-                "Essai.Paramètres de mesure.Méthode.Type de mesure": {
-                    "hideNone": 1
-                },
-                "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
-                    "type":"textarea"
-                },
-                "Essai.Paramètres": {
-                    "type":"table"
-                }
-            },
-            "form": {
-                "attributes": {
-                    "action": "http://httpbin.org/post",
-                    "method": "post"
-                },
-                "buttons": {
-                    "submit": {
-                        "click": function() {
-                            var value = this.getValue();
-                            //console.log(JSON.stringify(value, null, "  "));
-                            //$("#form form").submit();
-                            var data = JSON.stringify(value, null, "  ");
-                            //data.push({name: 'tienn2t', value: 'love'});
-                            $.ajax({
-                                type: "POST",
-                                url: "https://pafi.univ-lemans.fr/platform/index.php/PafiTransfer/Transfer/UploadJson",
-                                data: data,
-                                dataType: "json",
-                                success: function(data) {
-                                    //var obj = jQuery.parseJSON(data); if the dataType is not     specified as json uncomment this
-                                    // do what ever you want with the server response
-                                    console.log(data);
-                                },
-                                error: function() {
-                                    alert('error handing here');
+                //"optionsSource": "http://www.alpacajs.org/releases/1.1.3/examples/components/wizards/customer-profile-options.json",
+                "options": {
+                    "fields": {
+                        "Wav": {
+                            "disallowEmptySpaces": 1,
+                            "type": "file",
+                            "fieldClass": "tugudu",
+                            "fileTypes": "(\.|\/)(wav)$",
+                            "maxNumberOfFiles": 1,
+                            "label": "Fichier WAV",
+                            "selectionHandler": function (files, data) {
+                                this.data = data;
+                                $(".tugudu").append('<div id="imageInfo" style="display:block;padding:10px;"><table><tr><td nowrap="nowrap" class="imagePreview" style="width: 220px"> </td><td width="100%" class="imageProperties"> </td></tr></table></div>');
+                                //var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='" + data[0] + "'>");
+                                var img = $(".imagePreview").html("").append("<img style='max-width: 200px; max-height: 200px' src='http://openexhibits.org/wp-content/uploads/icon/large/wav-player-icon-100x100.png'>");
+                                var p = $(".imageProperties").html("").append("<p></p>");
+                                $(p).append("Name: " + files[0].name + "<br/>");
+                                $(p).append("Size: " + FileConvertSize(files[0].size) + "<br/>");
+                                $(p).append("Type: " + files[0].type + "<br/>");
+                                $("#imageInfo").css({
+                                    "display": "block"
+                                });
+                            }
+                        },
+                        "Instrument.Paramètres": {
+                            "type": "table"
+                        },
+                        "Instrument.Commentaires": {
+                            "type": "textarea"
+                        },
+                        "Instrument.Etat.Paramètres": {
+                            "type": "table"
+                        },
+                        "Essai.Paramètres de mesure.Méthode.Type de mesure": {
+                            "hideNone": 1
+                        },
+                        "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": {
+                            "type": "textarea"
+                        },
+                        "Essai.Paramètres": {
+                            "type": "table"
+                        }
+                    },
+                    "form": {
+                        "attributes": {
+                            "action": "https://httpbin.org/post",
+                            "method": "post"
+                        },
+                        "buttons": {
+                            "submit": {
+                                "click": function () {
+                                    var value = this.getValue();
+                                    console.log(value);
+                                    if($.blob) {
+                                        value.Wav = [];
+                                        value.Wav[0] = $("#blob").html();
+                                    }
+                                    //console.log(JSON.stringify(value, null, "  "));
+                                    //$("#form form").submit();
+                                    var data = JSON.stringify(value, null, "  ");
+                                    //data.push({name: 'tienn2t', value: 'love'});
+                                    /*$.ajax({
+                                        type: "POST",
+                                        url: "https://pafi.univ-lemans.fr/platform/index.php/PafiTransfer/Transfer/UploadJson",
+                                        data: data,
+                                        dataType: "json",
+                                        success: function (data) {
+                                            //var obj = jQuery.parseJSON(data); if the dataType is not     specified as json uncomment this
+                                            // do what ever you want with the server response
+                                            console.log(data);
+                                        },
+                                        error: function () {
+                                            alert('error handing here');
+                                        }
+                                    });*/
                                 }
-                            });
+                            }
                         }
                     }
+                },
+                "view": {
+                    "parent": "bootstrap-edit",
+                    "wizard": {
+                        "title": "PAFI",
+                        "description": "Saisie a minima des métadonnées",
+                        "hideSubmitButton": 1,
+                        "bindings": {
+                            "Wav": 1,
+                            "Général.Projet.Nom": 1,
+                            "Général.Projet.Session": 1,
+                            "Instrument.Catégorie": 2,
+                            "Instrument.Famille": 2,
+                            "Instrument.Nom": 2,
+                            "Instrument.Modèle": 2,
+                            "Instrument.Année de fabrication": 2,
+                            "Instrument.Numéro de série": 2,
+                            "Objet physique.Fabricant": 2,
+                            "Instrument.Commentaires": 2,
+                            "Instrument.Paramètres": 2,
+
+                            "Instrument.Etat.Nom": 3,
+                            "Instrument.Etat.Paramètres": 3,
+                            "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": 3,
+
+                            "Essai.Paramètres de mesure.Méthode.Type de mesure": 4,
+                            "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": 4,
+                            "Essai.Paramètres": 4
+                        },
+                        "steps": [{
+                            "title": "Projet",
+                            "description": "Informations sur le projet"
+                        }, {
+                            "title": "Instrument",
+                            "description": "Nom, Modèle, Numéro"
+                        }, {
+                            "title": "Etat",
+                            "description": "Etape de fabrication"
+                        }, {
+                            "title": "Mesure",
+                            "description": "Informations sur la mesure"
+                        }],
+                        "markAllStepsVisited": true
+                    }
                 }
-            }
-        },
-        "view": {
-            "parent": "bootstrap-edit",
-            "wizard": {
-                "title": "PAFI",
-                "description": "Saisie a minima des métadonnées",
-                "hideSubmitButton":1,
-                "bindings": {
-                    "Wav": 1,
-                    "Général.Projet.Nom": 1,
-                    "Général.Projet.Session": 1,
->>>>>>> 9daff3a5612131378994205cc7e45e66bd3c39a0
-
-	                    "Instrument.Catégorie": 2,
-	                    "Instrument.Famille": 2,
-	                    "Instrument.Nom": 2,
-	                    "Instrument.Modèle": 2,
-	                    "Instrument.Année de fabrication": 2,
-	                    "Instrument.Numéro de série": 2,
-	                    "Objet physique.Fabricant": 2,
-	                    "Instrument.Commentaires": 2,
-	                    "Instrument.Paramètres": 2,
-
-	                    "Instrument.Etat.Nom":3,
-	                    "Instrument.Etat.Paramètres":3,
-	                    "Instrument.Etat.Commentaires sur l&#39;état de l&#39;instrument": 3,
-
-	                    "Essai.Paramètres de mesure.Méthode.Type de mesure": 4,
-	                    "Essai.Conditions expérimentales.Commentaires sur la mesure réalisée": 4,
-	                    "Essai.Paramètres":4
-	                },
-	                "steps": [{
-	                    "title": "Projet",
-	                    "description": "Informations sur le projet"
-	                }, {
-	                    "title": "Instrument",
-	                    "description": "Nom, Modèle, Numéro"
-	                }, {
-	                    "title": "Etat",
-	                    "description": "Etape de fabrication"
-	                }, {
-	                    "title": "Mesure",
-	                    "description": "Informations sur la mesure"
-	                }],
-	                "markAllStepsVisited":true
-	            }
-	        }
-	    });
-	});
+            });
+        });
 	</script>
+<script>
+    $(window).on("ready", function() {
+       $("#transfer").on("click", function() {
+           $('#record-container').hide();
+           $('#form-container').slideDown();
+       });
+    });
+</script>
 </body>
 </html>
